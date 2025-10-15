@@ -1,0 +1,34 @@
+# Reporte de Actividad — {{ document_id }}
+
+
+Generado: {{ generated_at }}
+
+
+## Resumen del periodo
+- Rango: {{ summary.period.start or "(auto 30 días)" }} → {{ summary.period.end or "(hoy)" }}
+- Total de eventos: **{{ summary.total }}**
+- Primer evento: {{ summary.first_event or "N/A" }}
+- Último evento: {{ summary.last_event or "N/A" }}
+
+
+### Por canal
+{% for k,v in summary.by_channel.items() -%}
+- {{ k }}: {{ v }}
+{% endfor %}
+
+
+### Por acción
+{% for k,v in summary.by_action.items() -%}
+- {{ k }}: {{ v }}
+{% endfor %}
+
+
+---
+
+
+## Detalle (máx 500 eventos)
+| Fecha/Hora | Canal | Acción | Sucursal | IP | Dispositivo |
+|---|---|---|---|---|---|
+{% for r in logs -%}
+| {{ r.event_at }} | {{ r.channel }} | {{ r.action }} | {{ r.branch_code or "-" }} | {{ r.ip or "-" }} | {{ r.device_id or "-" }} |
+{% endfor %}
